@@ -41,7 +41,20 @@ class ShipEnv(gym.Env, EzPickle):
             pixel_scale = win.context._nscontext.view().backingScaleFactor()  
         VP_W = int(pixel_scale * WINDOW_W)
         VP_H = int(pixel_scale * WINDOW_H) 
+
+        t = self.transform
         gl.glViewport(0, 0, VP_W, VP_H)
+        t.enable()
+
+        gl.glBegin(gl.GL_QUADS)
+        gl.glVertex2f(100, 100)
+        gl.glVertex2f(200, 100)
+        gl.glVertex2f(200, 200)
+        gl.glVertex2f(100, 200)
+        gl.glEnd()
+
+        t.disable()
+        
         if mode == 'human':
             win.flip()
             return self.viewer.isopen
